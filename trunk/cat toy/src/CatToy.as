@@ -26,10 +26,10 @@ package src
 		}
 		private function init():void
 		{
-			bg.width = stage.stageWidth - 20;
-			bg.height = stage.stageHeight - 20;
-			bg.x = 10;
-			bg.y = 10;
+			bg.width = stage.stageWidth - 100;
+			bg.height = stage.stageHeight - 100;
+			bg.x = 50;
+			bg.y = 50;
 			bg.color
 			
 			//point = { _x:randRange(0, stage.stageWidth), _y:randRange(0, stage.stageHeight) };
@@ -49,7 +49,8 @@ package src
 			//point = { _x:butterfly.x, _y:butterfly.y };
 			b = Math.sin(angle / 180 * Math.PI) * point._x - point._y * -1;
 
-			var len:uint = Math.floor(stage.stageWidth / 10);
+			//var len:uint = Math.floor(stage.stageWidth / 10);
+			var len:uint = Math.floor(bg.width / 10);
 			for (var i:uint = 0; i < len; i++ )
 			{
 				pointArr.push( { _x:10 * i, _y: equationY(10 * i) } );

@@ -2,6 +2,9 @@ package src
 {
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.Event;
+	import flash.utils.Timer;
+	import flash.events.TimerEvent;
 	
 	/**
 	 * ...
@@ -11,8 +14,10 @@ package src
 	{
 		private var angle:int;//角度
 		private var b:Number;//y轴焦点
-		
-		private var point:Object = {_x:30, _y:30};//起始点
+		private var point:Object;//起始点
+		private var pointArr:Array;//记录点坐标
+		private var moveTimer:Timer;
+		private var counter:uint;//timer计数
 		
 		
 		public function CatToy()
@@ -21,11 +26,39 @@ package src
 		}
 		private function init():void
 		{
-			b = Math.sin(randomAngle() / 180 * Math.PI) * point._x - point._y * -1;
-			trace(equationY(30));
+			bg.width = stage.stageWidth - 20;
+			bg.height = stage.stageHeight - 20;
+			bg.x = 10;
+			bg.y = 10;
+			bg.color
+			
+			//point = { _x:randRange(0, stage.stageWidth), _y:randRange(0, stage.stageHeight) };
+			point = { _x:0, _y:0 };
+			angle = randomAngle();
+			start();
+			
+			addEventListener(Event.ENTER_FRAME, enterHandler);
 		}
 		
+		
+		//move
+		private function start():void
+		{
+			pointArr = new Array;
+			counter = 0;
+			//point = { _x:butterfly.x, _y:butterfly.y };
+			b = Math.sin(angle / 180 * Math.PI) * point._x - point._y * -1;
 
+			var len:uint = Math.floor(stage.stageWidth / 10);
+			for (var i:uint = 0; i < len; i++ )
+			{
+				pointArr.push( { _x:10 * i, _y: equationY(10 * i) } );
+			}
+			
+			moveTimer = new Timer(100, len);
+			moveTimer.addEventListener(TimerEvent.TIMER, moveHandler);
+			moveTimer.start();
+		}
 		private function randomAngle():Number //随机角度
 		{
 			return randRange(0, 180);
@@ -35,13 +68,32 @@ package src
 			var randomNum:Number = Math.floor(Math.random() * (max - min + 1)) + min;
 			return randomNum;
 		}
-
-		
 		private function equationY(_x:Number):Number //求y值
 		{
-			//trace("方程：x="+_x+" , y="+Math.sin(randomAngle() / 180 * Math.PI)+"x+("+b+")");
-			return (Math.sin((randomAngle() / 180) * Math.PI) * _x + b);
+			//trace("方程：x=" + _x + " , y=" + Math.sin(angle / 180 * Math.PI) + "x+(" + b + ")");
+			return (Math.sin((angle / 180) * Math.PI) * _x + b);
 		}
+		
+		private function moveHandler(event:TimerEvent):void //蝴蝶移动
+		{
+			butterfly.x = pointArr[counter]._x;
+			butterfly.y = pointArr[counter]._y;
+			counter += 1;
+
+		}
+		// //move
+		
+		
+		
+		private function enterHandler(event:Event):void
+		{
+			trace(butterfly.hitTestObject(bg));
+		}
+		
+		
+		
+		
+		
 		
 		
 	}

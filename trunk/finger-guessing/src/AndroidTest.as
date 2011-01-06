@@ -7,7 +7,7 @@ package src
 
 	/**
 	 * ...
-	 * @author yanfan1122@gmail.com
+	 * @author yangfan1122@gmail.com
 	 *
 	 * 0 - stone
 	 * 1 - forfex
